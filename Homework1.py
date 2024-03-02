@@ -1,4 +1,6 @@
 #ex1
+from matplotlib import pyplot as plt
+
 u = 10.0
 m = 1
 
@@ -43,11 +45,9 @@ print(x * (y * z))
 print((x * y) * z != x * (y * z))
 
 #ex3
-
+print("Ex3\n")
 import numpy as np
 import math
-
-# Define the rational approximation functions
 def T1(a):
     return a
 
@@ -75,30 +75,17 @@ def T8(a):
 def T9(a):
     return (34459425 * a - 4729725 * a**3 + 135135 * a**5 - 990 * a**7 + a**9) / (34459425 - 16216200 * a**2 + 945945 * a**4 - 13860 * a**6 + 45 * a**8)
 
-# Generate 10,000 random numbers in the range [-pi/2, pi/2]
 random_numbers = np.random.uniform(-np.pi/2, np.pi/2, 10000)
 
-# Calculate values for each of the 9 functions
 values = np.array([T1(random_numbers), T2(random_numbers), T3(random_numbers),
                    T4(random_numbers), T5(random_numbers), T6(random_numbers),
                    T7(random_numbers), T8(random_numbers), T9(random_numbers)])
 
-# Calculate exact values using the math.tan function
 exact_values = np.tan(random_numbers)
 
-# Calculate errors for each function
 errors = np.abs(values - exact_values.reshape(1, -1))
 
-# Identify the three functions with the best approximations for each random number
-best_approximations = np.argsort(errors, axis=0)[:3]
-
-# Create a ranking based on the frequency of being in the top 3 approximations
-function_ranking = np.zeros(9)
-
+print("Errors for each T(i, a):")
 for i in range(9):
-    function_ranking[i] = np.sum(best_approximations == i)
-
-# Display the results
-print("Function Ranking based on best approximations:")
-for i in np.argsort(function_ranking)[::-1]:
-    print(f"T({i+1},a): {function_ranking[i]} times")
+    avg_error = np.mean(errors[i])
+    print(f"T({i+1},a) - Average Error: {avg_error}")
