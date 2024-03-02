@@ -85,7 +85,10 @@ exact_values = np.tan(random_numbers)
 
 errors = np.abs(values - exact_values.reshape(1, -1))
 
-print("Errors for each T(i, a):")
-for i in range(9):
-    avg_error = np.mean(errors[i])
-    print(f"T({i+1},a) - Average Error: {avg_error}")
+error_list = [(i+1, np.mean(errors[i])) for i in range(9)]
+
+sorted_errors = sorted(error_list, key=lambda x: x[1])
+
+print("Sorted Errors in Ascending Order:")
+for i, avg_error in sorted_errors:
+    print(f"T({i},a) - Average Error: {avg_error:.16f}")
