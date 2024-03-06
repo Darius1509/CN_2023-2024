@@ -85,10 +85,12 @@ exact_values = np.tan(random_numbers)
 
 errors = np.abs(values - exact_values.reshape(1, -1))
 
-error_list = [(i+1, np.mean(errors[i])) for i in range(9)]
+errorsT = dict()
+for i in range(9):
+    avg_error = np.mean(errors[i])
+    errorsT[i] = avg_error
 
-sorted_errors = sorted(error_list, key=lambda x: x[1])
-
-print("Sorted Errors in Ascending Order:")
-for i, avg_error in sorted_errors:
-    print(f"T({i},a) - Average Error: {avg_error:.16f}")
+sorted_errors=sorted(errorsT.items(), key=lambda x: x[1])
+print("Errors in ascending order:")
+for i in range(9):
+    print(f"T({sorted_errors[i][0]+1},a)- Average Error: {sorted_errors[i][1]}")
