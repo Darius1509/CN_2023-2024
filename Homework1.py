@@ -45,6 +45,8 @@ print(x * (y * z))
 print((x * y) * z != x * (y * z))
 
 #ex3
+import matplotlib.pyplot as plt
+
 print("Ex3\n")
 import numpy as np
 import math
@@ -94,3 +96,20 @@ sorted_errors=sorted(errorsT.items(), key=lambda x: x[1])
 print("Errors in ascending order:")
 for i in range(9):
     print(f"T({sorted_errors[i][0]+1},a)- Average Error: {sorted_errors[i][1]}")
+
+
+#errors in ascending order
+sorted_errors = sorted(errorsT.items(), key=lambda x: x[1])
+
+plt.figure(figsize=(10, 6))
+plt.bar(range(1, 10), [error[1] for error in sorted_errors], color='skyblue')
+plt.xlabel('Term (Tn(a))')
+plt.ylabel('Average Error')
+plt.title('Errors in Ascending Order for Trigonometric Approximations')
+plt.xticks(range(1, 10), [f'T({error[0]+1},a)' for error in sorted_errors])
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+
+# Set explicit x-axis limits
+plt.xlim(0.5, 9.5)
+
+plt.show()
