@@ -187,7 +187,7 @@ for i in range(9):
 sorted_errors_sin=sorted(errorsSin.items(), key=lambda x: x[1])
 print("Errors in ascending order:")
 for i in range(9):
-    print(f"T({sorted_errors_sin[i][0]+1},a)- Average Error: {sorted_errors_sin[i][1]}")
+    print(f"S({sorted_errors_sin[i][0]+1},a)- Average Error: {sorted_errors_sin[i][1]}")
 
 
 #errors in ascending order
@@ -198,7 +198,7 @@ plt.bar(range(1, 10), [error[1] for error in sorted_errors_sin], color='skyblue'
 plt.xlabel('Term (Tn(a))')
 plt.ylabel('Average Error')
 plt.title('Errors in Ascending Order for Trigonometric Approximations of Sin')
-plt.xticks(range(1, 10), [f'T({error[0]+1},a)' for error in sorted_errors_sin])
+plt.xticks(range(1, 10), [f'S({error[0]+1},a)' for error in sorted_errors_sin])
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 
 # Set explicit x-axis limits
@@ -225,7 +225,7 @@ for i in range(9):
 sorted_errors_cos=sorted(errorsCos.items(), key=lambda x: x[1])
 print("Errors in ascending order:")
 for i in range(9):
-    print(f"T({sorted_errors_cos[i][0]+1},a)- Average Error: {sorted_errors_cos[i][1]}")
+    print(f"C({sorted_errors_cos[i][0]+1},a)- Average Error: {sorted_errors_cos[i][1]}")
 
 
 #errors in ascending order
@@ -236,7 +236,7 @@ plt.bar(range(1, 10), [error[1] for error in sorted_errors_cos], color='skyblue'
 plt.xlabel('Term (Tn(a))')
 plt.ylabel('Average Error')
 plt.title('Errors in Ascending Order for Trigonometric Approximations of Cos')
-plt.xticks(range(1, 10), [f'T({error[0]+1},a)' for error in sorted_errors_cos])
+plt.xticks(range(1, 10), [f'C({error[0]+1},a)' for error in sorted_errors_cos])
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 
 # Set explicit x-axis limits
