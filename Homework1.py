@@ -164,13 +164,11 @@ plt.title('Errors in Ascending Order for Trigonometric Approximations')
 plt.xticks(range(1, 10), [f'T({error[0]+1},a)' for error in sorted_errors])
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 
-# Set explicit x-axis limits
 plt.xlim(0.5, 9.5)
 
 plt.show()
 
 #bonus
-
 values = np.array([S1(random_numbers), S2(random_numbers), S3(random_numbers),
                    S4(random_numbers), S5(random_numbers), S6(random_numbers),
                    S7(random_numbers), S8(random_numbers), S9(random_numbers)])
@@ -201,14 +199,11 @@ plt.title('Errors in Ascending Order for Trigonometric Approximations of Sin')
 plt.xticks(range(1, 10), [f'S({error[0]+1},a)' for error in sorted_errors_sin])
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 
-# Set explicit x-axis limits
 plt.xlim(0.5, 9.5)
 
 plt.show()
 
 #cos
-
-
 values_cos = np.array([C1(random_numbers), C2(random_numbers), C3(random_numbers),
                    C4(random_numbers), C5(random_numbers), C6(random_numbers),
                    C7(random_numbers), C8(random_numbers), C9(random_numbers)])
@@ -239,7 +234,6 @@ plt.title('Errors in Ascending Order for Trigonometric Approximations of Cos')
 plt.xticks(range(1, 10), [f'C({error[0]+1},a)' for error in sorted_errors_cos])
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 
-# Set explicit x-axis limits
 plt.xlim(0.5, 9.5)
 
 plt.show()
