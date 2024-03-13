@@ -19,18 +19,53 @@ def crout(A):
 
     return L, U
 
-def lu_decomposition_alternative(A):
-    #not sure?
+
+def lu_decomposition_vector(A):
     n = len(A)
+    L_vector = np.zeros(n * (n + 1) // 2)
+    U_vector = np.zeros(n * (n + 1) // 2)
+
+    def map_to_vector(i, j, n):
+        if i > j:
+            return (i * (i + 1) // 2) + j
+        else:
+            return (j * (j + 1) // 2) + i
+
+    for i in range(n):
+        for j in range(i, n):
+            sum_u = sum(U_vector[map_to_vector(k, j, n)] * L_vector[map_to_vector(i, k, n)] for k in range(i))
+            U_vector[map_to_vector(i, j, n)] = A[i, j] - sum_u
+
+        for j in range(i + 1, n):
+            sum_l = sum(U_vector[map_to_vector(k, i, n)] * L_vector[map_to_vector(j, k, n)] for k in range(i))
+            L_vector[map_to_vector(j, i, n)] = (A[j, i] - sum_l) / U_vector[map_to_vector(i, i, n)]
+
+    return L_vector, U_vector
+
+
+def compute(L_vector, U_vector, n):
     L = np.zeros((n, n))
     U = np.zeros((n, n))
+
+    def index_in_vector(i, j, n):
+        if i >= j:
+            return i * (i + 1) // 2 + j
+        else:
+            return j * (j + 1) // 2 + i
+
     for i in range(n):
-        L[i, i] = 1
+        for j in range(i + 1):
+            if i == j:
+                L[i, j] = 1
+            else:
+                L[i, j] = L_vector[index_in_vector(i, j, n)]
+
+    for i in range(n):
         for j in range(i, n):
-            U[i, j] = A[i, j] - np.dot(L[i, :i], U[:i, j])
-        for j in range(i+1, n):
-            L[j, i] = (A[j, i] - np.dot(L[j, :i], U[:i, i])) / U[i, i]
+            U[i, j] = U_vector[index_in_vector(i, j, n)]
+
     return L, U
+
 
 def determinant_from_lu(L, U):
     det_L = np.prod(np.diag(L))
@@ -56,7 +91,8 @@ def solve_approximate(A, b, method):
     if method == 0:
         L, U = crout(A)
     elif method == 1:
-        L, U = lu_decomposition_alternative(A)
+        L_vector, U_vector = lu_decomposition_vector(A)
+        L, U = compute(L_vector, U_vector, len(A))
     else:
         raise ValueError("Metoda selectata nu este valida. Introduceti 0 pentru metoda initiala sau 1 pentru metoda noua:")
 
@@ -128,10 +164,15 @@ class LUApp(QWidget):
         inverse_A = np.linalg.inv(A)
         A_inv_b = np.dot(inverse_A, b)
         norm_diff_A_inv_b = np.linalg.norm(x_approx - A_inv_b, ord=2)
+        L_vector, U_vector = lu_decomposition_vector(A)
 
-        result_text = f"\nMatricea L (superioara triunghiulara):\n{L}"
-        result_text += f"\n\nMatricea U (inferioara triunghiulara):\n{U}"
-        result_text += f"\n\nDeterminantul matricei A este: {det_A}"
+        if method == 0:
+            result_text = f"\nMatricea L (superioara triunghiulara):\n{L}"
+            result_text += f"\n\nMatricea U (inferioara triunghiulara):\n{U}"
+            result_text += f"\n\nDeterminantul matricei A este: {det_A}"
+        elif method == 1:
+            result_text = f"\nMatricea L (superioara triunghiulara) sub forma de vector:\n{L_vector}"
+            result_text += f"\n\nMatricea U (inferioara triunghiulara) sub forma de vector:\n{U_vector}"
         result_text += f"\n\nSolutia aproximativa a sistemului Ax = b este: {x_approx}"
         result_text += f"\n\nNorma Euclidiana a reziduului ||A*x - b||_2: {residual_norm}"
         if residual_norm < error:
