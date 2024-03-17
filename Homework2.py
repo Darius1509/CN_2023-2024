@@ -19,6 +19,18 @@ def crout(A):
 
     return L, U
 
+def combine_lu(L, U):
+    n = len(L)
+    A = np.zeros((n, n))
+
+    for i in range(n):
+        for j in range(n):
+            if i >= j:
+                A[i, j] = L[i, j]
+            else:
+                A[i, j] = U[i, j]
+
+    return A
 
 def lu_decomposition_vector(A):
     n = len(A)
@@ -155,7 +167,13 @@ class LUApp(QWidget):
         method = int(self.method_entry.text())
         error = float(self.error_entry.text())
 
+        det_A_lib = np.linalg.det(A)
+        if np.isclose(det_A_lib, 0):
+            QMessageBox.warning(self, "Eroare", "Matricea A are determinantul 0 sau nu poate fi descompusă. Calculul nu poate continua.")
+            return
+
         L, U = crout(A)
+        A_crout = combine_lu(L, U)
         det_A = determinant_from_lu(L, U)
         x_approx = solve_approximate(A, b, method)
         residual_norm = check_solution(A, b, x_approx)
@@ -165,9 +183,9 @@ class LUApp(QWidget):
         A_inv_b = np.dot(inverse_A, b)
         norm_diff_A_inv_b = np.linalg.norm(x_approx - A_inv_b, ord=2)
         L_vector, U_vector = lu_decomposition_vector(A)
-
         if method == 0:
-            result_text = f"\nMatricea L (superioara triunghiulara):\n{L}"
+            result_text = f"\nMatricea A:\n{A_crout}"
+            result_text += f"\nMatricea L (superioara triunghiulara):\n{L}"
             result_text += f"\n\nMatricea U (inferioara triunghiulara):\n{U}"
             result_text += f"\n\nDeterminantul matricei A este: {det_A}"
         elif method == 1:
