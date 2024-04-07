@@ -50,6 +50,7 @@ def verifica_relatia(A_init, U, Lambda, mesaj, epsilon):
     norma = norm(diferenta, 'fro')  #frobenius=norma matriceala
     print("Norma matriceala a diferentei este:", norma)
     print("Valorile proprii aproximative sunt:", Lambda_aproximate)
+    print("Vectorii proprii:", U)
 
 
 def calcul_sir_matrice(A, epsilon, k_max):

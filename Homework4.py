@@ -116,7 +116,7 @@ def approximate_solution_using_Gauss_Seidel(A, b, max_k=1000, max_difference=1e8
 
     if not not_null_main_diagonal:
         print(
-            "Diagonala principala trebuie sa contina elemente nenule pentru a putea aproxima folosind metoda Gauss-Seidel")
+            "Diagonala  tprincipalarebuie sa contina elemente nenule pentru a putea aproxima folosind metoda Gauss-Seidel")
         return False, "Divergenta", 0
 
     n = b.shape[0]
@@ -179,15 +179,6 @@ def compute_solutions(file_name):
     else:
         print("Fisier nerecunoscut!Nu avem solutia sa!")
     return x
-
-
-def own_Chebyshev_norm(a):
-    norm = -1
-    n = a.shape[0]
-    for i in range(n):
-        norm = max(norm, abs(a[i]))
-    return norm
-
 
 def multiple_sparse_matrix_with_vector(matrix, vector):
     n = vector.shape[0]
